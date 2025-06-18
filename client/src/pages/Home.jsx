@@ -1,9 +1,10 @@
 import React from 'react'
-import { Navbar } from '../components'
+import { Navbar, Header } from '../components'
 function Home() {
   return (
     <div>
       <Navbar/>
+      <Header/>
     </div>
   )
 }
