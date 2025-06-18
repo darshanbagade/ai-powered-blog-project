@@ -12,6 +12,18 @@ function Header() {
             <h1 className='text-3xl sm:text-6xl font-semibold sm:leading-16 text-gray-700'>Your own <span className='text-primary'>bloging</span><br /> platform.</h1>
 
             <p className='my-6 sm:my-8  max-w-2xl m-auto max-sm:text-xs text-gray-500'>This is your space to think out loud, to share what matters, and to write without filters. Whether it's one word or a thousand, your story starts right here.</p>
+
+            <form className='flex justify-between  max-w-lg  max-sm:scale-75 mx-auto border border-gray-200 bg-white rounded  overflow-hidden'>
+              <input 
+              type="text" 
+              required 
+              placeholder='Search for blogs'
+              className=' outline-none w-full  pl-4 bg-' />
+              <button
+              className='bg-primary text-white px-8 py-2 m-1.5 rounded hover:scale-105 transition-all cursor-pointer'
+              >Search</button>
+            </form>
+
         </div>
         <img 
         src={assets.gradientBackground} 
