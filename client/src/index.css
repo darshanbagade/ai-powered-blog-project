@@ -7,3 +7,8 @@
 ::-webkit-scrollbar{
   display: none;
 }
+
+
+@theme {
+  --color-primary : #5044E5;
+}
