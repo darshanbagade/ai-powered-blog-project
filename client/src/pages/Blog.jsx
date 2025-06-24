@@ -55,7 +55,7 @@ function Blog() {
 
 
       {/* Comment Section */}
-      <div className='mt-14 mb-10 max-w-3xl mx-auto ml-4'>
+      <div className='mt-14 mb-10 max-w-3xl  mx-auto'>
         <p className='font-semibold mb-4' >Comments({comments.length})</p>
        
         <div className='flex flex-col gap-4'>
@@ -91,7 +91,7 @@ function Blog() {
       {/* Share buttons-  Social Media Logo */}
       <div className='my-24 max-w-3xl mx-auto'>
           <p className='font-semibold my-4'>Share this article on social media</p>
-          <div className='felx'>
+          <div className='flex'>
             <img src={assets.facebook_icon} width={50} alt="" />
             <img src={assets.twitter_icon} width={50} alt="" />
             <img src={assets.googleplus_icon} width={50} alt="" />
