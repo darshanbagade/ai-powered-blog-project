@@ -5,7 +5,8 @@ import BlogCard from "./BlogCard.jsx"
 import Newsletter from "./Newsletter.jsx"
 import Footer from "./Footer.jsx"
 import Loader from "./Loader.jsx"
-
+import Sidebar from "./admin/Sidebar.jsx"
+import Login from "./admin/Login.jsx"
 export {
     Navbar,
     Header,
@@ -13,5 +14,7 @@ export {
     BlogCard,
     Newsletter,
     Footer,
-    Loader
+    Loader,
+    Sidebar,
+    Login
 }
