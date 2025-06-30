@@ -2,6 +2,9 @@ import React from 'react'
 import {Routes, Route} from 'react-router-dom'
 import {Home, Blog, Dashboard, ListBlog, AddBlog, Layout,Comments} from './pages/index'
 import {Login} from './components/index'
+import 'quill/dist/quill.snow.css'
+
+
 function App() {
   return (
     <div>
