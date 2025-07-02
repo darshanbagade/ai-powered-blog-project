@@ -1,26 +1,23 @@
 import express from 'express'
 import cors from 'cors'
-import 'dotenv/config'
-import connectDB from './configs/db.js'
-const app = express()
+import dotenv from 'dotenv'
 
-//MONGODB
-await connectDB()
-
-//midddleware
-app.use(cors())
-app.use(express.json())
-/*
-express.json() is a in-built middleware that convert JSON data 
-to javascript objects which is coming form the User's POST or PUT requests
-*/
-
-//route
-app.get('/', (req,res)=> res.send("API is working"))
-
-const PORT = process.env.PORT || 3000 ;
-app.listen(PORT, ()=>{
-    console.log("Server is listening on Port ",PORT);
+//accessing the env credentials 
+dotenv.config({
+    path: './.env'
 })
 
-export default app
+
+//initialize express application
+const app  = express();
+
+//adding the cors 
+app.use(cors())
+
+
+const port =  process.env.PORT
+
+//starting the server with listen
+app.listen(port, ()=>{
+    console.log("Server is running on the port : " + port)
+})
