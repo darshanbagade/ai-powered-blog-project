@@ -57,3 +57,17 @@ export const addBlog = async (req, res) => {
         return res.json({success : false , message : error.message})
     }
 }
+
+
+export const getBlogList = async (req, res) =>{
+    try {
+        const blogData = await Blog.find({isPublished :true})
+        console.log(blogData)
+        if(blogData){
+            return res.json({success: true , blogData})
+        }
+    } catch (error) {
+        console.log("Error");
+        return res.json({ success : false , message : error.message })
+    }
+}
