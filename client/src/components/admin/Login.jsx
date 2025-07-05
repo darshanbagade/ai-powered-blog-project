@@ -1,14 +1,27 @@
-import React,{useState} from 'react'
-import { useNavigate } from 'react-router-dom'
-
+import { useState } from 'react'
+import { useAppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 function Login() {
+
+
+    const {axios, setToken} = useAppContext()
     const [email, setEmail] = useState('')
     const [ password, setPassword ] = useState('')
 
-    const navigate = useNavigate()
-
     const login = async (e) =>{
-        e.preventDefault()        
+        e.preventDefault()   
+        try {
+            const {data} = await axios.post('/api/admin/login',{email,password})
+            console.log(data)
+
+            if(data.success){
+                setToken(data.token);
+                localStorage.setItem('token',data.token)
+                axios.defaults.headers.common['Authorization'] = data.token
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Login failed')
+        }     
     }
 
   return (
