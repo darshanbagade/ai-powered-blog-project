@@ -5,30 +5,69 @@ import { comments_data } from '../assets/assets'
 import { useParams } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import moment from 'moment';
-
+import {useAppContext} from '../context/AppContext'
+import toast from 'react-hot-toast'
 function Blog() {
 
   const {id} = useParams();
-  const [data, setData] = useState(null)
-  const [comments, setComments] = useState(null)
-  const [name, setName] =useState()
-  const [content, setContent] =useState()
+  const [data, setData] = useState(null)// blog content data
+  const [comments, setComments] = useState([])
+  const [name, setName] =useState('')
+  const [content, setContent] =useState('')
 
-  useEffect(() => {
-      const data =  blog_data.find(item => item._id ===id ) ;
-      if (data) setData(data)
+  const {axios} = useAppContext()
 
-    },[data, id])
+
+  const fetchBlog = async () => {
+      try{
+          const { data } = await axios.get(`/api/blog/${id}`);
+          if(data.success) {
+            setData(data.blog);
+          }else{
+            toast.error(data.message)
+          }
+      }catch(error){
+          toast.error(error.message)
+      }
+
+  }
+  const fetchComments = async()=>{
+    try {
+      const {data} = await axios.get(`/api/blog/comments/${id}`);
+      // console.log(data.comments);
+      if(data.success){
+        setComments(data.comments);
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
   
+  }
 
-    useEffect(()=>{
-     setComments(comments_data)
-    },[id,comments])
+  useEffect(()=>{
+    fetchBlog();
+    fetchComments();
+  },[setComments,comments])
+
 
 
 
     const addComment = async(e) =>{
       e.preventDefault()
+      try {
+        const {data} = await axios.post('/api/blog/add-comment',{blog:id,name,content});
+        if(data.success){
+          toast.success(data.message);
+          setName("");
+          setContent("");
+        }else{
+          toast.error(data.message)
+        }
+      } catch (error) {
+        toast.error(error.message)
+      }
     }
 
   
