@@ -1,7 +1,21 @@
-import React from 'react'
+import React,{useRef} from 'react'
 import { assets } from '../assets/assets'
+import { useAppContext } from '../context/AppContext'
 
 function Header() {
+  
+  const {input, setInput} = useAppContext()
+  const inputRef = useRef()
+  const inputHandler = async (e)=>{
+    e.preventDefault()
+    setInput(inputRef.current.value)
+  }
+
+  const clearInputHandler = async () =>{
+    setInput("");
+    inputRef.current.value = ''
+  }
+
   return (
     <div className='mx-8 sm:mx-16 xl:mx-24 relative'>
         <div className='text-center mt-20 mb-20'>
@@ -13,8 +27,12 @@ function Header() {
 
             <p className='my-6 sm:my-8  max-w-2xl m-auto max-sm:text-xs text-gray-500'>This is your space to think out loud, to share what matters, and to write without filters. Whether it's one word or a thousand, your story starts right here.</p>
 
-            <form className='flex justify-between  max-w-lg  max-sm:scale-75 mx-auto border border-gray-200 bg-white rounded  overflow-hidden'>
+            <form
+              className='flex justify-between  max-w-lg  max-sm:scale-75 mx-auto border border-gray-200 bg-white rounded  overflow-hidden'
+              onSubmit={inputHandler}
+             >
               <input 
+              ref = {inputRef}
               type="text" 
               required 
               placeholder='Search for blogs'
@@ -23,7 +41,9 @@ function Header() {
               className='bg-primary text-white px-8 py-2 m-1.5 rounded hover:scale-105 transition-all cursor-pointer'
               >Search</button>
             </form>
-
+            {
+              input && <button className='py-2 px-2 mt-4 border-1 cursor-pointer border-gray-400 rounded ' onClick={clearInputHandler}>clear input</button> 
+            }
         </div>
         <img 
         src={assets.gradientBackground} 
