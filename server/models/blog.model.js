@@ -22,6 +22,10 @@ const blogSchema = new Schema({
     },
     isPublished : {
         type:Boolean
+    },
+    author:{
+       type : String,
+       required : true 
     }
 });
 
