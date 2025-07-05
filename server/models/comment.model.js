@@ -13,6 +13,10 @@ const commentSchema = new Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref: "Blog",
         required : true
+    },
+    isApproved :{
+        type: Boolean,
+        default : true
     }
 },
 {
