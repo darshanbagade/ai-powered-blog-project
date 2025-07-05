@@ -13,6 +13,6 @@ blogRouter.post('/toggle-publish',auth , togglePublish)
 
 
 blogRouter.post('/add-comment',addCommment)
-blogRouter.get('/comments',getBlogComments)
+blogRouter.get('/comments/:id',getBlogComments)
 
 export default blogRouter
