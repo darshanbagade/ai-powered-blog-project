@@ -27,6 +27,6 @@ const blogSchema = new Schema({
        type : String,
        required : true 
     }
-});
+}, {timestamps:true});
 
 export const Blog = model('Blog', blogSchema);
