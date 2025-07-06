@@ -30,7 +30,7 @@ const [dashboardData,setDashboardData] = useState({
 
   useEffect(()=>{
     fetchBlogs();
-  },[fetchBlogs])
+  },[])
 
   return (
     <div className='flex-1 p-4 md:p-10 bg-blue-50/50'>
