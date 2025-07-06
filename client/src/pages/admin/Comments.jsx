@@ -24,9 +24,9 @@ function Comments() {
       toast.error(error.message)
     }
   }
-  // useEffect(()=>{
-  //   fetchComments()
-  // },[])
+  useEffect(()=>{
+    fetchComments()
+  },[])
   
 
   return (
