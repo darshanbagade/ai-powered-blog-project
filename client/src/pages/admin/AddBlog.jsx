@@ -1,22 +1,69 @@
 import React,{useState, useRef, useEffect} from 'react'
 import { assets, blogCategories } from '../../assets/assets'
 import Quill from 'quill'
+import { useAppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 
 
 function AddBlog() {
 
+
+  const [isAdding , setIsAdding] = useState(false)
   const [image, setImage] = useState(false)
   const [title, setTitle] = useState('')
   const [subTitle, setSubTitle] = useState('')
-  const [category, setCategory] = useState('Startup')
+  const [author, setAuthor] = useState('')
+  const [category, setCategory] = useState('All')
   const [isPublished , setIsPublished] =useState(false)
+  // console.log(image)
 
   const editorRef = useRef(null)
   const quillRef = useRef(null)
+  const {axios} = useAppContext()
 
 
-  const submitHandler = () =>{
-    e.preventDefault
+
+
+  const submitHandler = async(e) =>{
+    e.preventDefault()
+    try {
+      
+      const blog = {
+        title,
+        subTitle,
+        author,
+        description : quillRef.current.root.innerHTML,
+        category,
+        isPublished
+      }
+      // console.log(blog);
+      
+      const formData = new FormData();
+      formData.append("blog",JSON.stringify(blog))
+      formData.append("image",image)
+      // console.log(formData);
+      
+      const { data } = await axios.post('/api/blog/add',formData);
+      // console.log(data)
+      if(data.success){
+        toast.success(data.message);
+        setTitle('');
+        setSubTitle('');
+        setAuthor('');
+        setCategory('')
+        setImage(null)
+        setIsPublished(false)
+        quillRef.current.root.innerHTML =''
+      }else{
+        toast.error(data.message)
+      }
+
+    } catch (error) {
+      toast.error(error.message);
+    }finally{
+      setIsAdding(false)
+    }
+
   }
 
   const generateContent = async()=>{
@@ -61,7 +108,7 @@ function AddBlog() {
           onChange={(e)=>setTitle(e.target.value)} 
         />
 
-        <p>Sub title</p>
+        <p className='pt-4'>Sub title</p>
         <input 
           type="text" 
           placeholder='Type here'
@@ -69,6 +116,16 @@ function AddBlog() {
           value={subTitle}
           required
           onChange={(e)=>setSubTitle(e.target.value)} 
+        />
+
+        <p className='pt-4' >Author</p>
+        <input 
+          type="text" 
+          placeholder='Type here'
+          className='w-full max-w-lg mt-2 p-2 border border-gray-300 outline-none rounded'
+          value={author}
+          required
+          onChange={(e)=>setAuthor(e.target.value)} 
         />
 
         <p className="mt-4">Blog Description</p>
@@ -84,8 +141,10 @@ function AddBlog() {
 
         <p className="mt-4">Blog Category</p>
         <select 
-          name="category" className='mt-2 px-3 py-2 border text-gray-500 border-gray-300 outline-none rounded'
+          name="category" 
+          className='mt-2 px-3 py-2 border text-gray-500 border-gray-300 outline-none rounded'
           onChange={(e)=>setCategory(e.target.value)}
+          value={category}
           required
         >
           <option value ="" > Select category</option>
@@ -103,11 +162,21 @@ function AddBlog() {
               type="checkbox"
               id='isPublish'
               className=' mt-5 scale-125 cursor-pointer'
+              checked={isPublished}
               onChange={(e)=>{setIsPublished(e.target.checked)}}
             />
           </div>
 
-          <button type='submit' className='mt-8 w-40 h-10 bg-primary text-white rounded cursor-pointer text-sm'>Add Blog</button>
+          <button 
+          onClick={()=>setIsAdding(true)} 
+          
+          type='submit' className='mt-8 w-40 h-10 bg-primary text-white rounded cursor-pointer text-sm'
+          >
+            {
+              isAdding ? "Adding..." : "Add Blog"
+
+            }
+          </button>
       </div>
     </form>
   )
