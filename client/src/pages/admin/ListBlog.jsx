@@ -21,9 +21,9 @@ function ListBlog() {
     }
   }
 
-  useEffect(()=>{
-    fetchBlogs();
-  },[])
+  // useEffect(()=>{
+  //   fetchBlogs();
+  // },[])
 
   return (
     <div className='flex-1 px-5 sm:pt-12 sm:pl-16 bg-blue-50/50'>
