@@ -24,8 +24,8 @@ export const adminController = async (req, res) => {
 export const getAllBlogAdmin = async ( req, res) => {
     try {
         
-        const blogData = await Blog.find({}).sort({createdAt: -1});
-        return res.json({success : true , blogData})
+        const blogs = await Blog.find({}).sort({createdAt: -1});
+        return res.json({success : true , blogs})
 
     } catch (error) {
         return res.json({success : false , message : error.message})        
@@ -36,10 +36,10 @@ export const getAllBlogAdmin = async ( req, res) => {
 //getAllComments to Admin
 export const getAllComments = async (req,res) =>{
     try {
-        const blogComments = await Comment.find({}).populate('blog').sort({createdAt : -1})
+        const comments = await Comment.find({}).populate('blog').sort({createdAt : -1})
         //populate will replace the blogId with associated blog document
 
-        return res.json({success : true, blogComments})
+        return res.json({success : true, comments})
     } catch (error) {
         return res.json({success:false , message : error.message})
     }
@@ -48,18 +48,18 @@ export const getAllComments = async (req,res) =>{
 export const getDashboardData  = async (req,res) =>{
     try {
         const recentBlogs = await Blog.find({}).sort({createdAt : -1}).limit(5)
-        const blogCount = await Blog.countDocuments()
-        const commentCount = await Comment.countDocuments({})
-        const blogDraftCount = await Blog.countDocuments({ isPublished : false })
+        const blogs = await Blog.countDocuments()
+        const comments = await Comment.countDocuments({})
+        const drafts = await Blog.countDocuments({ isPublished : false })
 
-        const dashboardData = {
+        const dashboard = {
             recentBlogs,
-            blogCount,
-            commentCount,
-            blogDraftCount
+            blogs,
+            comments,
+            drafts
         }
 
-        return res.json({succes : true, dashboardData})
+        return res.json({success : true, dashboard})
     } catch (error) {
         return res.json({success:false , message : error.message})
     }
@@ -94,3 +94,52 @@ export const approveCommentById = async (req, res ) =>{
         return res.json({success:false , message : error.message})     
     }
 }
+
+
+
+export const deleteBlogById = async (req, res)=>{
+    try {
+
+        // console.log(req.body);
+        
+        const {id} = req.body || {};
+        
+        if(!id){
+            return res.json({success : false , message : "Blog ID is required" })
+        }
+        
+        const deleteBlog = await Blog.findByIdAndDelete(id)
+        if(!deleteBlog){
+            return res.json({success : false , message : "Blog not found" })
+        }
+
+        //delete the comments associated with the blog
+        await Comment.deleteMany({blog : id})
+
+
+        res.json({success : true , message : "Blog has been deleted"})
+        
+    } catch (error) {
+        return res.json({success : false, message : error.message})
+    }
+}
+
+export const togglePublish = async (req,res) =>{
+    try {
+        const  {id} = req.body ;
+        if(!id){
+            return res.json({success: false , message : "Blog id is required"})
+        }
+
+        const blog = await Blog.findById(id);
+        // console.log(blog);
+        
+        blog.isPublished = !blog.isPublished
+        await blog.save()
+        return res.json({success : true , message : "Blog Status Updated"})
+
+    } catch (error) {
+        return res.json({success:false , message: error.message})
+    }
+}
+
