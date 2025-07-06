@@ -16,7 +16,7 @@ const commentSchema = new Schema({
     },
     isApproved :{
         type: Boolean,
-        default : true
+        default : false
     }
 },
 {
