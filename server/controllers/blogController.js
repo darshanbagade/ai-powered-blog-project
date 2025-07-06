@@ -11,7 +11,7 @@ export const addBlog = async (req, res) => {
 
         // console.log(req.body.blog)
         
-        if(!title || !description || !category || !imageFile  || author){
+        if(!title || !description || !category || !imageFile){
             return res.json({success : false , message: " Missing required fields"})
         }
 
@@ -29,7 +29,7 @@ export const addBlog = async (req, res) => {
             fileName : imageFile.originalname,
             folder : "/blogs"
         })
-        console.log(response)
+        // console.log(response)
 
         //optimization of image through imagekit transformation
         const optimizatedImageUrl = imagekit.url({
@@ -88,53 +88,6 @@ export  const getBlogById = async (req , res ) => {
 
     } catch (error) {
         return res.json({success : true, message : error.message})
-    }
-}
-
-
-export const deleteBlogById = async (req, res)=>{
-    try {
-
-        // console.log(req.body);
-        
-        const {id} = req.body || {};
-        
-        if(!id){
-            return res.json({success : false , message : "Blog ID is required" })
-        }
-        
-        const deleteBlog = await Blog.findByIdAndDelete(id)
-        if(!deleteBlog){
-            return res.json({success : false , message : "Blog not found" })
-        }
-
-        //delete the comments associated with the blog
-        await Comment.deleteMany({blog : id})
-
-
-        res.json({success : true , message : "Blog has been deleted"})
-        
-    } catch (error) {
-        return res.json({success : false, message : error.message})
-    }
-}
-
-export const togglePublish = async (req,res) =>{
-    try {
-        const  {id} = req.body ;
-        if(!id){
-            return res.json({success: false , message : "Blog id is required"})
-        }
-
-        const blog = await Blog.findById(id);
-        console.log(blog);
-        
-        blog.isPublished = !blog.isPublished
-        await blog.save()
-        return res.json({success : true , message : "Blog Status Updated"})
-
-    } catch (error) {
-        return res.json({success:false , message: error.message})
     }
 }
 
