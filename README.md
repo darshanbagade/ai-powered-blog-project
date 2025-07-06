@@ -1,5 +1,3 @@
-# readme.md
-
 # QuillMind AI Blog
 
 QuillMind AI Blog is an innovative platform that harnesses the power of artificial intelligence to simplify and enhance the process of creating, managing, and publishing blog content. With its intuitive interface and advanced AI capabilities, it empowers content creators to produce high-quality, engaging blog posts efficiently.
