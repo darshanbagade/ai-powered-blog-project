@@ -4,11 +4,12 @@ import { motion } from "motion/react"
 import {} from '../assets/assets'
 import {BlogCard} from './index'
 import { useAppContext } from '../context/AppContext'
+import { useEffect } from 'react'
 
 function BlogList() {
     
   const [menu, setMenu] = useState("All")
-  const {blogs, input} = useAppContext()
+  const {blogs, input, fetchBlogs} = useAppContext()
   // console.log(blogs)
   const filteredBlogs = ()=>{
     if(input == ""){
@@ -20,6 +21,9 @@ function BlogList() {
       blog.category.toLowerCase().includes(input.toLowerCase())
     )
   }
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
 
   return (
 
