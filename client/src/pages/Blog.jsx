@@ -49,7 +49,7 @@ function Blog() {
   useEffect(()=>{
     fetchBlog();
     fetchComments();
-  },[setComments,comments])
+  },[])
 
 
 
