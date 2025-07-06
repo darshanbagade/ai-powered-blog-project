@@ -64,7 +64,7 @@ export const addBlog = async (req, res) => {
 
 export const getBlogList = async (req, res) =>{
     try {
-        const blogData = await Blog.find({isPublished :true})
+        const blogData = await Blog.find({isPublished :true}).sort({createdAt:-1})
         // console.log(blogData)
         if(blogData){
             return res.json({success: true , blogData})

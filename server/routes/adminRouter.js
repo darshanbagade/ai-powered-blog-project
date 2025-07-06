@@ -6,7 +6,8 @@ import {
     getAllComments, 
     getDashboardData, 
     togglePublish,
-    deleteBlogById
+    deleteBlogById,
+    generateContent
 } from "../controllers/adminController.js";
 import { Router } from "express";
 import { auth } from "../middleware/auth.middleware.js";
@@ -20,5 +21,6 @@ adminRouter.post('/delete-comment',auth, deleteCommentById)
 adminRouter.get('/dashboard',auth, getDashboardData)
 adminRouter.post('/delete',auth , deleteBlogById)
 adminRouter.post('/toggle-publish',auth , togglePublish)
+adminRouter.post('/generate-content',auth , generateContent)
 
 export default adminRouter

@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { Blog } from '../models/blog.model.js';
 import { Comment } from '../models/comment.model.js'
+import main from '../configs/geminiApi.js';
 //Login Controller
 export const adminController = async (req, res) => {
     try {
@@ -143,3 +144,39 @@ export const togglePublish = async (req,res) =>{
     }
 }
 
+export const generateContent = async(req, res) =>{
+    try {
+        
+        if (!req.body || !req.body.prompt) {
+            return res.json({ success: false, message: "Prompt is required" });
+        }
+        const { prompt } = req.body;  
+
+        const backendPrompt = `You are an expert blog writer.
+
+Generate a well-structured, engaging, SEO-optimized blog post based on the following title:
+"${prompt}"
+
+Instructions:
+- Write in a conversational and informative tone.
+- Use markdown formatting (## headings, bullet points, bold, italics) for clear structure.
+- Start with a short and catchy introduction.
+- Divide the blog into 3–5 clear sections with appropriate headings.
+- Use examples, statistics, or analogies where relevant.
+- End with a strong conclusion or call to action.
+- Ensure originality, clarity, and coherence.
+- Do not include the title again in the output.
+
+Begin the blog now:
+`;
+
+        const content  = await main(backendPrompt);
+        if(!content){
+            return res.json({success : false, message:"No gemini response"})
+        }
+        return res.json({success : true, content})
+    } catch (error) {
+            return res.json({ success : false, message: error.message })
+       
+    }
+}
